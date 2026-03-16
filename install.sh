@@ -14,7 +14,7 @@ else
     exit 1
 fi
 
-curl -L -o /tmp/$BIN https://github.com/yagofontanez/upstat-cli/releases/latest/download/$BIN
+curl -L -o /tmp/$BIN https://github.com/yagofontanez/upstat-cli-go/releases/latest/download/$BIN
 chmod +x /tmp/$BIN
 sudo mv /tmp/$BIN /usr/local/bin/upstat
 
