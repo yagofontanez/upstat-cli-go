@@ -32,40 +32,40 @@ const (
 
 var I18N = map[Lang]map[string]string{
 	PT: {
-		"title":           "▲ UpStat CLI",
-		"connecting":      "Conectando...",
-		"noMonitors":      "Nenhum monitor encontrado.",
-		"monitors":        "monitores",
-		"online":          "online",
-		"offline":         "offline",
-		"updating":        "Atualizando a cada",
-		"seconds":         "s",
-		"quit":            "Ctrl+C para sair",
-		"invalidKey":      "API key inválida. Rode: upstat logout",
-		"fetchError":      "Erro ao buscar monitores",
-		"keyRemoved":      "API key removida.",
-		"keySaved":        "Configurações salvas em ~/.upstat",
-		"askKey":          "Cole sua API key (Settings → API Keys no painel):",
+		"title":            "▲ UpStat CLI",
+		"connecting":       "Conectando...",
+		"noMonitors":       "Nenhum monitor encontrado.",
+		"monitors":         "monitores",
+		"online":           "online",
+		"offline":          "offline",
+		"updating":         "Atualizando a cada",
+		"seconds":          "s",
+		"quit":             "Ctrl+C para sair",
+		"invalidKey":       "API key inválida. Rode: upstat logout",
+		"fetchError":       "Erro ao buscar monitores",
+		"keyRemoved":       "API key removida.",
+		"keySaved":         "Configurações salvas em ~/.upstat",
+		"askKey":           "Cole sua API key (Settings → API Keys no painel):",
 		"askKeyValidation": "A key deve começar com ups_",
-		"goodbye":         "Até mais! 👋",
+		"goodbye":          "Até mais! 👋",
 	},
 	EN: {
-		"title":           "▲ UpStat CLI",
-		"connecting":      "Connecting...",
-		"noMonitors":      "No monitors found.",
-		"monitors":        "monitors",
-		"online":          "online",
-		"offline":         "offline",
-		"updating":        "Updating every",
-		"seconds":         "s",
-		"quit":            "Ctrl+C to quit",
-		"invalidKey":      "Invalid API key. Run: upstat logout",
-		"fetchError":      "Failed to fetch monitors",
-		"keyRemoved":      "API key removed.",
-		"keySaved":        "Config saved at ~/.upstat",
-		"askKey":          "Paste your API key (Settings → API Keys in the dashboard):",
+		"title":            "▲ UpStat CLI",
+		"connecting":       "Connecting...",
+		"noMonitors":       "No monitors found.",
+		"monitors":         "monitors",
+		"online":           "online",
+		"offline":          "offline",
+		"updating":         "Updating every",
+		"seconds":          "s",
+		"quit":             "Ctrl+C to quit",
+		"invalidKey":       "Invalid API key. Run: upstat logout",
+		"fetchError":       "Failed to fetch monitors",
+		"keyRemoved":       "API key removed.",
+		"keySaved":         "Config saved at ~/.upstat",
+		"askKey":           "Paste your API key (Settings → API Keys in the dashboard):",
 		"askKeyValidation": "Key must start with ups_",
-		"goodbye":         "Goodbye! 👋",
+		"goodbye":          "Goodbye! 👋",
 	},
 }
 
@@ -223,6 +223,17 @@ func startWatch(cfg Config) {
 }
 
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "logout" {
+		cfg, _ := loadConfig()
+		lang := PT
+		if cfg != nil {
+			lang = cfg.Lang
+		}
+		clearConfig()
+		color.HiGreen("  %s\n", tr(lang, "keyRemoved"))
+		os.Exit(0)
+	}
+
 	cfg, err := loadConfig()
 	if err != nil {
 		langChoice := ""
